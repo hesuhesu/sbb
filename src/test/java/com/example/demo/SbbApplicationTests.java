@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -71,14 +73,41 @@ class SbbApplicationTests {
 		this.questionRepository.save(q);
 	}*/
 	
-	@Test
-	void testJpa() {
+	/*void testJpa() {
 		assertEquals(2, this.questionRepository.count());
 		Optional<Question> oq = this.questionRepository.findById(1);
 		assertTrue(oq.isPresent());
 		Question q = oq.get();
 		this.questionRepository.delete(q);
 		assertEquals(1, this.questionRepository.count());
-	}
+	}*/
 	
+	/*void testJpa() {
+		Optional<Question> oq = this.questionRepository.findById(2);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+		Answer a = new Answer();
+		a.setContent(" 네 자 동 으 로 생 성 됩 니 다 .");
+		a.setQuestion(q); // 어 떤 질 문 의 답 변 인 지 알 기 위 해 서 Question 객 체 가 필 요 하 다 .
+		a.setCreateDate(LocalDateTime.now());
+		this.answerRepository.save(a);
+	}*/
+	
+	/*void testJpa() {
+		Optional<Answer> oa = this.answerRepository.findById(1);
+		assertTrue(oa.isPresent());
+		Answer a = oa.get();
+		assertEquals(2, a.getQuestion().getId());
+	}*/
+	
+	@Transactional
+	@Test
+	void testJpa() {
+		Optional<Question> oq = this.questionRepository.findById(2);
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+		List<Answer> answerList = q.getAnswerList();
+		assertEquals(1, answerList.size());
+		assertEquals(" 네 자 동 으 로 생 성 됩 니 다 .", answerList.get(0).getContent());
+	}
 }
