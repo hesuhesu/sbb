@@ -20,7 +20,7 @@ public class MainController {
 	
 	@GetMapping("/sbb")
 	@ResponseBody
-	public String sbb() {
+	public String sbb() { // http://localhost:8080/sbb
 		return "index";
 	}
 }
