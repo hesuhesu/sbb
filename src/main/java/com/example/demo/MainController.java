@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
+	
+	@GetMapping("/")
+	public String root() { // http://localhost:8080
+		return "redirect:/question/list";
+	}
+	
 	@GetMapping("/home")
 	@ResponseBody
 	public String home() { // http://localhost:8080/home
@@ -23,4 +29,5 @@ public class MainController {
 	public String sbb() { // http://localhost:8080/sbb
 		return "index";
 	}
+	
 }
