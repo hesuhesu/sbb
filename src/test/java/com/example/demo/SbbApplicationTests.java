@@ -4,26 +4,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 import java.util.List;
-import java.time.LocalDateTime;
+// import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+// import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.answer.Answer;
-import com.example.demo.answer.AnswerRepository;
-import com.example.demo.question.Question;
-import com.example.demo.question.QuestionRepository;
-
+// import com.example.demo.answer.Answer;
+// import com.example.demo.answer.AnswerRepository;
+// import com.example.demo.question.Question;
+// import com.example.demo.question.QuestionRepository;
+import com.example.demo.question.QuestionService;
 
 @SpringBootTest
 class SbbApplicationTests {
-	@Autowired
+	
+	/*@Autowired
 	private QuestionRepository questionRepository;
 	
 	@Autowired
-	private AnswerRepository answerRepository;
+	private AnswerRepository answerRepository;*/
+	
+	@Autowired
+	private QuestionService questionService;
 	
 	/*void testJpa() {
 		Question q1 = new Question();
@@ -105,7 +109,7 @@ class SbbApplicationTests {
 		assertEquals(2, a.getQuestion().getId());
 	}*/
 	
-	@Transactional
+	/*@Transactional
 	@Test
 	void testJpa() {
 		Optional<Question> oq = this.questionRepository.findById(2);
@@ -114,5 +118,14 @@ class SbbApplicationTests {
 		List<Answer> answerList = q.getAnswerList();
 		assertEquals(1, answerList.size());
 		assertEquals(" 네 자 동 으 로 생 성 됩 니 다 .", answerList.get(0).getContent());
+	}*/
+	
+	@Test
+	void testJpa() {
+		for (int i = 1; i <= 300; i++) {
+			String subject = String.format(" 테 스 트 데 이 터 입 니 다 :[%03d]", i);
+			String content = " 내 용 무 ";
+			this.questionService.create(subject, content);
+		}
 	}
 }
