@@ -32,6 +32,7 @@ public class QuestionController {
 	
 	@GetMapping("/list")
 	public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+		
 		Page<Question> paging = this.questionService.getList(page);
 		model.addAttribute("paging", paging);
 		return "question_list";
@@ -39,6 +40,7 @@ public class QuestionController {
 	
 	@GetMapping(value = "/detail/{id}")
 	public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+		
 		Question question = this.questionService.getQuestion(id);
 		model.addAttribute("question", question);
 		return "question_detail";
@@ -65,6 +67,7 @@ public class QuestionController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/modify/{id}")
 	public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
+		
 		Question question = this.questionService.getQuestion(id);
 		if(!question.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, " 수 정 권 한 이 없 습 니 다 .");
@@ -93,6 +96,7 @@ public class QuestionController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/delete/{id}")
 	public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
+		
 		Question question = this.questionService.getQuestion(id);
 		if (!question.getAuthor().getUsername().equals(principal.getName())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, " 삭 제 권 한 이 없 습 니 다 .");
@@ -101,5 +105,14 @@ public class QuestionController {
 		return "redirect:/";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+		
+		Question question = this.questionService.getQuestion(id);
+		SiteUser siteUser = this.userService.getUser(principal.getName());
+		this.questionService.vote(question, siteUser);
+		return String.format("redirect:/question/detail/%s", id);
+	}
 	
 }
