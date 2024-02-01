@@ -26,7 +26,7 @@ public class UserController {
 			return "signup_form";
 		}
 		if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())){
-			bindingResult.rejectValue("password2", "passwordInCorrect", "2 개 의 패 스 워 드 가 일 치 하 지 않 습 니 다 .");
+			bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
 			return "signup_form";
 		}
 		
@@ -34,7 +34,7 @@ public class UserController {
 			userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1());
 		}catch(DataIntegrityViolationException e) {
 			e.printStackTrace();
-			bindingResult.reject("signupFailed", " 이 미 등 록 된 사 용 자 입 니 다 .");
+			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
 			return "signup_form";
 		}catch(Exception e) {
 			e.printStackTrace();
